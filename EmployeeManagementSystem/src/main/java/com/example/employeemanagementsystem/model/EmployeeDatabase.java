@@ -1,7 +1,8 @@
 package com.example.employeemanagementsystem.model;
-import main.java.exceptions.EmployeeNotFoundException;
-import main.java.exceptions.InvalidDepartmentException;
-import main.java.exceptions.InvalidSalaryException;
+
+import com.example.employeemanagementsystem.exception.EmployeeNotFoundException;
+import com.example.employeemanagementsystem.exception.InvalidDepartmentException;
+import com.example.employeemanagementsystem.exception.InvalidSalaryException;
 
 import java.util.*;
 

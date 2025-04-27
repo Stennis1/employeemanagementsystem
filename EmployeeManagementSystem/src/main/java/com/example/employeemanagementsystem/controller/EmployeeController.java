@@ -1,6 +1,7 @@
 package com.example.employeemanagementsystem.controller;
 
-import main.java.model.Employee;
+
+import com.example.employeemanagementsystem.model.Employee;
 
 import java.util.ArrayList;
 import java.util.HashMap;
