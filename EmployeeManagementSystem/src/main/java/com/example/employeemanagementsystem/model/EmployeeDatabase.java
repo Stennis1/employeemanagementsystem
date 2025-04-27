@@ -64,7 +64,6 @@ public class EmployeeDatabase<T> {
 
     public List<Employee<T>> getAllEmployees() {
         return new ArrayList<>(employeeMap.values());
-
     }
 
     // Search by Fields
@@ -112,4 +111,18 @@ public class EmployeeDatabase<T> {
                         Employee::getSalary).average().orElse(0.0);
     }
 
+    public Employee<T> getEmployee(T employeeId) throws EmployeeNotFoundException {
+        Employee<T> employee = employeeMap.get(employeeId);
+        if (employee == null) {
+            throw new EmployeeNotFoundException("Employee with ID " + employeeId + " is not found!");
+        }
+        return employee;
+    }
+
+    public void deleteEmployee(T employeeId) throws EmployeeNotFoundException {
+        Employee<T> employee = employeeMap.remove(employeeId);
+        if (employee == null) {
+            throw new EmployeeNotFoundException("Employee with ID " + employeeId + " is not found!");
+        }
+    }
 }
