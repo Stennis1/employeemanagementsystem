@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeDatabaseTest {
@@ -58,6 +59,36 @@ class EmployeeDatabaseTest {
         database.updateEmployeeDetails(employee.getEmployeeId(), "name", "John Smith");
         Employee<String> updated = database.getEmployee(employee.getEmployeeId());
         assertEquals("John Smith", updated.getName());
+    }
+
+    @Test
+    void testUpdateEmployeeWithNegativeSalary() throws Exception {
+        database.addEmployee(employee);
+        assertThrows(InvalidSalaryException.class, () ->
+                database.updateEmployeeDetails(employee.getEmployeeId(), "salary", -10000.0));
+    }
+
+    @Test
+    void testUpdateEmployeeWithBlankDepartment() throws Exception {
+        database.addEmployee(employee);
+        assertThrows(InvalidDepartmentException.class, () ->
+                database.updateEmployeeDetails(employee.getEmployeeId(), "department", ""));
+    }
+
+    @Test
+    void testUpdateWithInvalidField() throws Exception {
+        database.addEmployee(employee);
+        assertThrows(IllegalArgumentException.class, () ->
+                database.updateEmployeeDetails(employee.getEmployeeId(), "invalidfield", "value"));
+    }
+
+    @Test
+    void testGiveRaiseToHighPerformers() throws Exception {
+        database.addEmployee(employee);
+        double oldSalary = employee.getSalary();
+        database.giveRaiseToHighPerformers(4.0, 10.0); // 10% raise
+        Employee<String> updated = database.getEmployee(employee.getEmployeeId());
+        assertEquals(oldSalary * 1.10, updated.getSalary(), 0.01);
     }
 
     @Test
