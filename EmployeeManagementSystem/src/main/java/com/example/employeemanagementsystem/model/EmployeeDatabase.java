@@ -43,22 +43,37 @@ public class EmployeeDatabase<T> {
         Employee<T> employee = employeeMap.get(employeeId);
 
         if (employee == null) {
-            System.out.println("Employee not found!");
-            return;
+            throw new EmployeeNotFoundException("Employee with ID " + employeeId + "not found");
         }
+
         switch (field.toLowerCase()) {
             case "name" -> employee.setName((String) newValue);
-            case "department" -> employee.setDepartment((String) newValue);
-            case "salary" -> employee.setSalary((Double) newValue);
+            case "department" -> {
+                String dept = (String) newValue;
+                if (dept == null || dept.isBlank()) {
+                try {
+                    throw new InvalidDepartmentException("Department cannot be empty");
+                } catch (InvalidDepartmentException e) {
+                    throw new RuntimeException(e);
+                }
+                }
+                employee.setDepartment(dept);
+            }
+            case "salary" -> {
+                double salary = (Double) newValue;
+                if (salary < 0) {
+                    try {
+                        throw new InvalidSalaryException("Salary must not be negative!");
+                    } catch (InvalidSalaryException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                employee.setSalary(salary);
+            }
             case "performancerating" -> employee.setPerformanceRating((double) newValue);
             case "yearsofexperience" -> employee.setYearsOfExperience((Integer) newValue);
             case "isactive" -> employee.setActive((boolean) newValue);
-            default -> {
-            }
-        }
-
-        if (!employeeMap.containsKey(employeeId)) {
-            throw new EmployeeNotFoundException("Employee ID not found!");
+            default -> throw new IllegalArgumentException("Unknown field " + field);
         }
     }
 
