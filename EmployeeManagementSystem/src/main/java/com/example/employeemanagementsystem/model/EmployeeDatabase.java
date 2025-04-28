@@ -1,9 +1,7 @@
 package com.example.employeemanagementsystem.model;
-
 import com.example.employeemanagementsystem.exception.EmployeeNotFoundException;
 import com.example.employeemanagementsystem.exception.InvalidDepartmentException;
 import com.example.employeemanagementsystem.exception.InvalidSalaryException;
-
 import java.util.*;
 
 public class EmployeeDatabase<T> {
@@ -14,9 +12,6 @@ public class EmployeeDatabase<T> {
     }
 
     public void addEmployee(Employee<T> employee) throws InvalidDepartmentException, InvalidSalaryException {
-        employeeMap.put(employee.getEmployeeId(), employee);
-        System.out.println("Added Employee!");
-
         if (employee.getSalary() < 0) {
             throw new InvalidSalaryException("Salary cannot be negative!");
         }
@@ -24,6 +19,9 @@ public class EmployeeDatabase<T> {
         if (employee.getDepartment() == null || employee.getDepartment().isEmpty()) {
             throw new InvalidDepartmentException("Department cannot be empty");
         }
+
+        employeeMap.put(employee.getEmployeeId(), employee);
+        System.out.println("Added Employee!");
     }
 
     public void removeEmployee(T employeeId) throws EmployeeNotFoundException {
@@ -31,7 +29,7 @@ public class EmployeeDatabase<T> {
             employeeMap.remove(employeeId);
             System.out.println("Removed Employee!");
         } else {
-            System.out.println("Employee not found!!");
+            System.out.println("Employee not found!");
         }
 
         if (!employeeMap.containsKey(employeeId)) {
@@ -39,7 +37,8 @@ public class EmployeeDatabase<T> {
         }
     }
 
-    public void updateEmployeeDetails(T employeeId, String field, Object newValue) throws EmployeeNotFoundException {
+    public void updateEmployeeDetails(T employeeId, String field, Object newValue)
+            throws EmployeeNotFoundException {
         Employee<T> employee = employeeMap.get(employeeId);
 
         if (employee == null) {
@@ -107,10 +106,12 @@ public class EmployeeDatabase<T> {
     }
 
     public void giveRaiseToHighPerformers(double minRating, double raisePercent) {
-        employeeMap.values().stream().filter(emp -> emp.getPerformanceRating() >= minRating).forEach(
+        employeeMap.values().stream().filter(emp ->
+                emp.getPerformanceRating() >= minRating).forEach(
                 emp -> {
-                    double raiseAmount = emp.getSalary() + (raisePercent / 100);
-                    emp.setSalary(emp.getSalary() + raiseAmount);
+                    double currentSalary = emp.getSalary();
+                    double raiseAmount = currentSalary * (raisePercent / 100);
+                    emp.setSalary(currentSalary + raiseAmount);
                 }
         );
     }

@@ -77,7 +77,6 @@ public class Employee<T> implements Comparable<Employee<T>> {
         isActive = active;
     }
 
-    // For sorting by years of experience (descending)
     @Override
     public int compareTo(Employee<T> other) {
         return Integer.compare(other.getYearsOfExperience(), this.getYearsOfExperience());

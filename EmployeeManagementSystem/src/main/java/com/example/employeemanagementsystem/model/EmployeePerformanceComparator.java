@@ -1,5 +1,4 @@
 package com.example.employeemanagementsystem.model;
-
 import java.util.Comparator;
 
 public class EmployeePerformanceComparator<T> implements Comparator<Employee<T>> {

@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
-        EmployeeManagementUI ui = new EmployeeManagementUI(); // our custom UI
-        Scene scene = new Scene(ui, 950, 600); // set preferred width and height
+        EmployeeManagementUI ui = new EmployeeManagementUI();
+        Scene scene = new Scene(ui, 1050, 900);
 
         primaryStage.setTitle("Employee Management System");
         primaryStage.setScene(scene);
